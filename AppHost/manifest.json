@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json.schemastore.org/aspire-8.0.json",
+  "resources": {
+    "webapp-server": {
+      "type": "project.v0",
+      "path": "../WebApp/WebApp.Server/WebApp.Server.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{webapp-server.bindings.http.targetPort}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
+        }
+      }
+    },
+    "webapp-client": {
+      "type": "dockerfile.v0",
+      "path": "../WebApp/webapp.client/Dockerfile",
+      "context": "../WebApp/webapp.client",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "{webapp-client.bindings.https.targetPort}",
+        "services__webapp-server__http__0": "{webapp-server.bindings.http.url}",
+        "services__webapp-server__https__0": "{webapp-server.bindings.https.url}",
+        "BROWSER": "none"
+      },
+      "bindings": {
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 5173,
+          "external": true
+        }
+      }
+    }
+  }
+}

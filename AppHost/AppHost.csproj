@@ -11,10 +11,13 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.1.0" />
+    <PackageReference Include="Aspire.Hosting.Azure" Version="8.1.0" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApp\WebApp.Server\WebApp.Server.csproj" />
+    <ProjectReference Include="..\webapp.client\webapp.client.esproj" />
+    <ProjectReference Include="..\WebApp.Server\WebApp.Server.csproj" />
   </ItemGroup>
 
 </Project>
